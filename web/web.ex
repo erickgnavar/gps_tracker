@@ -48,6 +48,7 @@ defmodule GpsTracker.Web do
       use Phoenix.HTML
 
       import GpsTracker.Router.Helpers
+      import GpsTracker.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 

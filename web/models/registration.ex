@@ -1,0 +1,13 @@
+defmodule GpsTracker.Registration do
+  import Ecto.Changeset, only: [put_change: 3]
+
+  def create(changeset, repo) do
+    changeset
+    |> put_change(:encrypted_password, hash_password(changeset.params["password"]))
+    |> repo.insert()
+  end
+
+  defp hash_password(password) do
+    Comeonin.Bcrypt.hashpwsalt(password)
+  end
+end

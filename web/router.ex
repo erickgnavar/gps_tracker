@@ -17,6 +17,11 @@ defmodule GpsTracker.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/register/", RegistrationController, :new
+    post "/register/", RegistrationController, :create
+    get "/login/", SessionController, :new
+    post "/login/", SessionController, :create
+    delete "/login/", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.
