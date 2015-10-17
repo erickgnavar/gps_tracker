@@ -2,7 +2,7 @@ defmodule GpsTracker.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", GpsTracker.RoomChannel
+  channel "tracking:*", GpsTracker.TrackingChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

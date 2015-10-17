@@ -51,12 +51,38 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
+let map = new GMaps({
+  div: '#map',
+  lat: -12.043333,
+  lng: -77.028333,
+  zoom: 12
+})
+
+let markers = {}
+
+function addMarker(data) {
+  let key = data.vehicle.id.toString()
+  if (Object.keys(markers).indexOf(key) !== -1) {
+    markers[key].setMap(null)
+    delete markers[key]
+  }
+  markers[key] = map.addMarker({
+    lat: data.latitude,
+    lng: data.longitude,
+    icon: '/images/car.png'
+  }) 
+}
+
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
+let channel = socket.channel('tracking:home', {})
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive('ok', resp => { console.log('Joined successfully', resp) })
+  .receive('error', resp => { console.log('Unable to join', resp) })
+
+channel.on('new_location', payload => {
+  addMarker(payload)
+})
 
 export default socket

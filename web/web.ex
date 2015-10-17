@@ -63,6 +63,7 @@ defmodule GpsTracker.Web do
       use Phoenix.Channel
 
       alias GpsTracker.Repo
+      alias GpsTracker.RethinkRepo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
     end
