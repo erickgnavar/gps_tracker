@@ -8,11 +8,27 @@ defmodule GpsTracker.TrackingChannel do
   end
 
   def handle_info(:after_join, socket) do
-    spawn __MODULE__, :send_location, [socket]
+    spawn __MODULE__, :stream_locations, [socket]
+    spawn __MODULE__, :push_last_location_by_vehicle, [socket]
     {:noreply, socket}
   end
 
-  def send_location(socket) do
+  def push_last_location_by_vehicle(socket) do
+    Query.table("locations")
+    |> RethinkRepo.run
+    |> Enum.group_by(%{}, fn (a) -> a["vehicle_id"] end)
+    |> Enum.map(fn(x) ->
+      {_, locations} = x
+      [res|_] = locations
+      |> Enum.sort(&(&1 > &2))
+      res
+    end)
+    |> Enum.each fn(location) ->
+      push socket, "new_location", location
+    end
+  end
+
+  def stream_locations(socket) do
     Query.table("locations")
     |> Query.changes
     |> RethinkRepo.run
