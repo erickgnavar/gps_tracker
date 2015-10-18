@@ -25,7 +25,9 @@ defmodule GpsTracker.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", GpsTracker do
-  #   pipe_through :api
-  # end
+  scope "/api", GpsTracker do
+    pipe_through :api
+    get "/vehicles/:vehicle_id/locations/", LocationController, :index
+    post "/vehicles/:vehicle_id/locations/", LocationController, :create
+  end
 end
