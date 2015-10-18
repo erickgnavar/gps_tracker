@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Phoenix!</title>
+    <title>GPS Tracking</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -15,19 +15,24 @@
     <div class="container" role="main">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+          <%= if logged_in?(@conn) do %>
+          <li>
+            <%= link "Logout", to: session_path(@conn, :delete), method: :delete %>
+          </li>
+          <% else %>
+          <li>
+          <%= link "Login", to: session_path(@conn, :new) %>
+          </li>
+          <li>
+          <%= link "Register", to: registration_path(@conn, :new) %>
+          </li>
+          <% end %>
         </ul>
-        <span class="logo"></span>
+        <h1>GPS Tracking</h1>
       </div>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= if logged_in?(@conn) do %>
-      <%= link "Logout", to: session_path(@conn, :delete), method: :delete  %>
-      <% else %>
-      <%= link "Login", to: session_path(@conn, :new) %>
-      <%= link "Register", to: registration_path(@conn, :new)  %>
-      <% end %>
 
       <%= @inner %>
 
