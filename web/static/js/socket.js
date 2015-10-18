@@ -61,7 +61,7 @@ let map = new GMaps({
 let markers = {}
 
 function addMarker(data) {
-  let key = data.vehicle.id.toString()
+  let key = data.vehicle_id.toString()
   if (Object.keys(markers).indexOf(key) !== -1) {
     markers[key].setMap(null)
     delete markers[key]
