@@ -38,7 +38,8 @@ defmodule GpsTracker.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 1.2"},
-      {:rethinkdb, "~> 0.1.1"}
+      {:rethinkdb, "~> 0.1.1"},
+      {:exrm, "~> 0.19.9"}
     ]
   end
 
