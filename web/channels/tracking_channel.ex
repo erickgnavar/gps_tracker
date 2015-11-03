@@ -7,9 +7,15 @@ defmodule GpsTracker.TrackingChannel do
     {:ok, socket} 
   end
 
+  def terminate(reason, socket) do
+    pid = socket.assigns[:stream_pid]
+    Process.exit pid, :kill   
+  end
+
   def handle_info(:after_join, socket) do
-    spawn __MODULE__, :stream_locations, [socket]
+    pid = spawn __MODULE__, :stream_locations, [socket]
     spawn __MODULE__, :push_last_location_by_vehicle, [socket]
+    socket = assign(socket, :stream_pid, pid)
     {:noreply, socket}
   end
 
