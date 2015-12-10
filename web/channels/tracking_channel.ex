@@ -4,12 +4,12 @@ defmodule GpsTracker.TrackingChannel do
 
   def join("tracking:home", _payload, socket) do
     send self, :after_join
-    {:ok, socket} 
+    {:ok, socket}
   end
 
   def terminate(reason, socket) do
     pid = socket.assigns[:stream_pid]
-    Process.exit pid, :kill   
+    Process.exit pid, :kill
   end
 
   def handle_info(:after_join, socket) do
@@ -29,7 +29,7 @@ defmodule GpsTracker.TrackingChannel do
       |> Enum.sort(&(&1 > &2))
       res
     end)
-    |> Enum.each fn(location) ->
+    |> Enum.each fn location ->
       push socket, "new_location", location
     end
   end
@@ -39,9 +39,9 @@ defmodule GpsTracker.TrackingChannel do
     |> Query.changes
     |> RethinkRepo.run
     |> Stream.take_every(1)
-    |> Enum.each fn(change) ->
+    |> Enum.each fn change ->
       %{"new_val" => location} = change
-      push socket, "new_location", location 
-    end 
+      push socket, "new_location", location
+    end
   end
 end
