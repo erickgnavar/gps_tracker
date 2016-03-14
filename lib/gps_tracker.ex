@@ -11,8 +11,6 @@ defmodule GpsTracker do
       supervisor(GpsTracker.Endpoint, []),
       # Start the Ecto repository
       worker(GpsTracker.Repo, []),
-      # RethinkDB worker
-      worker(RethinkDB.Connection, [[name: GpsTracker.RethinkRepo, host: "localhost", port: 28015]]),
       # Here you could define other workers and supervisors as children
       # worker(GpsTracker.Worker, [arg1, arg2, arg3]),
     ]

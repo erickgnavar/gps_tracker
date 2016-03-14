@@ -1,15 +1,16 @@
-defmodule GpsTracker.Vehicle do
+defmodule GpsTracker.Location do
   use GpsTracker.Web, :model
 
-  schema "vehicles" do
-    field :code, :string
+  schema "locations" do
+    field :latitude, :float
+    field :longitude, :float
 
-    has_many :locations, GpsTracker.Location
+    belongs_to :vehicle, GpsTracker.Vehicle
 
     timestamps
   end
 
-  @required_fields ~w(code)
+  @required_fields ~w(latitude longitude vehicle_id)
   @optional_fields ~w()
 
   @doc """
@@ -21,5 +22,6 @@ defmodule GpsTracker.Vehicle do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> foreign_key_constraint(:vehicle_id)
   end
 end

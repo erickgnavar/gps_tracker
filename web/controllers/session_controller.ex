@@ -1,8 +1,6 @@
 defmodule GpsTracker.SessionController do
   use GpsTracker.Web, :controller
-  alias GpsTracker.User
-  alias GpsTracker.Repo
-  alias GpsTracker.Session
+  alias GpsTracker.{Repo, Session}
 
   def new(conn, _params) do
     render conn, "login.html"

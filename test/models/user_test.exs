@@ -3,7 +3,7 @@ defmodule GpsTracker.UserTest do
 
   alias GpsTracker.User
 
-  @valid_attrs %{crypted_password: "some content", email: "some content"}
+  @valid_attrs %{password: "secret", email: "test@test.com"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
