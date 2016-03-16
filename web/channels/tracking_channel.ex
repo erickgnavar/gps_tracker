@@ -13,8 +13,8 @@ defmodule GpsTracker.TrackingChannel do
       locations = Repo.all from l in Location, where: l.vehicle_id == ^vehicle.id, order_by: [desc: l.inserted_at], limit: 1
       last_location = List.first(locations)
       if last_location != nil do
-          data = GpsTracker.LocationView.render("location.json", %{location: last_location})
-          push socket, "new_location", data
+        data = GpsTracker.LocationView.render("location.json", %{location: last_location})
+        push socket, "new_location", data
       end
     end)
     {:noreply, socket}
